@@ -1,4 +1,5 @@
-# forms
+# Vue 3 Form Components
+Written in TypeScript using the Composition API.
 
 ## Project setup
 ```
