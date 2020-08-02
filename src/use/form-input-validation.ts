@@ -1,14 +1,20 @@
 // Based on article https://vuejsdevelopers.com/2020/03/31/vue-js-form-composition-api/
 import { ref, watch, Ref, computed } from "@vue/composition-api"
 
+export enum Validity {
+  Invalid = "is-invalid",
+  Valid = "is-valid",
+  NotChecked = ""
+}
 export type ValidatorFunction = (input: string) => null | string
 export type ValidatorFunctions = ValidatorFunction[]
 export type ValidatorEventHandler = (value: string) => void
 export type UseFormInputValidation = {
   input: Ref<string>
   errors: Ref<(string | null)[]>
-  validityClass: Ref<string>
+  validityClass: Ref<Validity>
 }
+
 
 const between = (low: number, high: number): ValidatorFunction => {
   return (input: string) => {
@@ -65,13 +71,16 @@ export default function (
   // If validation performed, return is-valid or is-invalid, else ""
   const validityClass = computed(() => {
     if (errors.value.length > 0)
-      return errors.value.every((error) => error === null) ? "is-valid" : "is-invalid"
-    return "" // No validation performed (not dirty)
+      return errors.value.every((error) => error === null)
+        ? Validity.Valid
+        : Validity.Invalid
+    return Validity.NotChecked
   })
 
   // Whenever the input changes, new value is passed to each function in validators array
-  // which adds a string to errors array if invalid (null skips)
-  watch(input, (newVal) => { // watch for input event and callback with new value
+  // adding string to errors array if invalid (null skips)
+  watch(input, (newVal) => {
+    // watch for input event and callback with new value
     errors.value = validators.map((validator) => validator(newVal))
     onValidate(newVal) // emit value back to FormInput after calling each validator function
   })
