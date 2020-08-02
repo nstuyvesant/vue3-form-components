@@ -4,7 +4,7 @@ import { ref, watch, Ref, computed } from "@vue/composition-api"
 export enum Validity {
   Invalid = "is-invalid",
   Valid = "is-valid",
-  NotChecked = ""
+  NotChecked = "",
 }
 export type ValidatorFunction = (input: string) => null | string
 export type ValidatorFunctions = ValidatorFunction[]
@@ -14,7 +14,6 @@ export type UseFormInputValidation = {
   errors: Ref<(string | null)[]>
   validityClass: Ref<Validity>
 }
-
 
 const between = (low: number, high: number): ValidatorFunction => {
   return (input: string) => {
@@ -55,7 +54,7 @@ const sameAs = (val: string): ValidatorFunction => {
 const unique = (val: string): ValidatorFunction => {
   // TODO: return function that sees if (input: string) is already in the table
   // If length of array is zero, the value is unique
-  return (input: string) => (input === "user" ? null : `Not a unique ${val}.`)
+  return (input: string) => (input === "user" ? null : `Not a unique: ${val}.`)
 }
 
 export { between, email, minLength, numeric, required, sameAs, unique }
