@@ -31,7 +31,7 @@ export default defineComponent({
 
     const onSubmit = (): void => {
       form.submitted = true
-      console.log("form", form)
+      console.log("Submitted form", form)
     }
 
     const emailRef = ref<FormInputContext>()
