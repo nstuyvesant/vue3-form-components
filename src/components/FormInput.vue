@@ -17,7 +17,7 @@ import useInputValidation, {
   ValidatorFunctions,
 } from "@/use/form-input-validation"
 
-// Since this is TypeScript, need way for parent to know about this method
+// TypeScript: need way for parent to know about this method to prevent error
 export interface FormInputContext extends Vue {
   focus(): void
 }
@@ -71,7 +71,7 @@ export default defineComponent({
     },
   },
   setup(props, ctx) {
-    // Destructure here in case ctx is needed for something else; otherwise do as parameter
+    // Destructure here in case ctx is needed for something else; otherwise do as setup parameter
     const { emit } = ctx
 
     // Extract validator functions from props
@@ -82,17 +82,17 @@ export default defineComponent({
     if (props.type === "email") validators.push(email())
     if (props.type === "number") validators.push(numeric())
 
-    // Pass value into useInputValidation:
-    // input is bound to DOM input,
-    // errors will be an array with error messages,
-    // validityClass will contain Bootstrap classes is-valid or is-invalid
+    // useInputValidation function:
+    // input - bound to DOM input in template
+    // errors - array with error messages (or nulls)
+    // validityClass - Bootstrap classes is-valid, is-invalid, or "" if field isn't dirty or has no validator functions
     const { input, errors, validityClass } = useInputValidation(
       props.value, // value of input passed to component
       validators, // validators array
       (value: string) => emit("input", value), // emit built-in input event with the validated value
     )
 
-    // Function exposed so parent can call it. Child component's root is div.form-group, not input.
+    // Child component's template root is div.form-group, not input so must expose this method to parent
     const focus = () => formInputRef.value?.focus()
 
     onMounted(() => {
@@ -103,7 +103,7 @@ export default defineComponent({
       input,
       errors,
       validityClass,
-      formInputRef,
+      formInputRef, // otherwise focus() won't work
       focus,
     }
   },
