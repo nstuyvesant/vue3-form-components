@@ -2,7 +2,7 @@
 #app
   .container
     h1 Form Experiment
-    form(@submit.prevent='loginSubmit', novalidate='', autocomplete='on')
+    form(@submit.prevent='onSubmit', novalidate='', autocomplete='on')
       FormInput(id='email', type='email', ref='emailRef', autofocus=true, v-model.trim='form.email', :validators='[required()]', label='Email', placeholder='Email address', sr-only=false, autocomplete='email', :maxlength='80')
       FormInput(id='password', type='password', v-model.trim='form.password', :validators='[required()]', label='Password', placeholder='Password', ref='passwordRef', sr-only=false, autocomplete='current-password', :maxlength='18')
       button.btn.btn-primary(type='button', @click='emailFocus') Focus on Email
@@ -29,8 +29,9 @@ export default defineComponent({
       password: "",
     })
 
-    const loginSubmit = (): void => {
+    const onSubmit = (): void => {
       form.submitted = true
+      console.log("form", form)
     }
 
     const emailRef = ref<FormInputContext>()
@@ -39,7 +40,7 @@ export default defineComponent({
       emailRef.value?.focus()
     }
 
-    return { required, loginSubmit, form, emailRef, emailFocus }
+    return { required, onSubmit, form, emailRef, emailFocus }
   },
 })
 </script>

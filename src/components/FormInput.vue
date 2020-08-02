@@ -1,7 +1,7 @@
 <template lang="pug">
 .form-group
   label(:for='id', :class='srOnly ? "sr-only" : ""') {{ label }}
-  input.form-control(:id='id', ref='formInputRef', :type='type', :class='cssValidity', v-model='input', :maxlength='maxlength', :placeholder='placeholder', :aria-describedby='`${id}Feedback`')
+  input.form-control(:id='id', ref='formInputRef', :type='type', :class='validityClass', v-model='input', :maxlength='maxlength', :placeholder='placeholder', :aria-describedby='`${id}Feedback`')
   .invalid-feedback(:id='`${id}Feedback`')
     template(v-for='error in errors')
       template(v-if='error')
@@ -9,6 +9,7 @@
         br
 </template>
 <script lang="ts">
+// Based on article https://vuejsdevelopers.com/2020/03/31/vue-js-form-composition-api/
 import { defineComponent, ref, onMounted } from "@vue/composition-api"
 import useInputValidation, {
   email,
@@ -16,6 +17,7 @@ import useInputValidation, {
   ValidatorFunctions,
 } from "@/use/form-input-validation"
 
+// Since this is TypeScript, need way for parent to know about this method
 export interface FormInputContext extends Vue {
   focus(): void
 }
@@ -69,7 +71,8 @@ export default defineComponent({
     },
   },
   setup(props, ctx) {
-    const { emit } = ctx // Do it here in case I need ctx for something else
+    // Destructure here in case ctx is needed for something else; otherwise do as parameter
+    const { emit } = ctx
 
     // Extract validator functions from props
     const validators: ValidatorFunctions = [...props.validators]
@@ -79,13 +82,17 @@ export default defineComponent({
     if (props.type === "email") validators.push(email())
     if (props.type === "number") validators.push(numeric())
 
-    // Pass value into useInputValidation
-    const { input, errors, cssValidity } = useInputValidation(
+    // Pass value into useInputValidation:
+    // input is bound to DOM input,
+    // errors will be an array with error messages,
+    // validityClass will contain Bootstrap classes is-valid or is-invalid
+    const { input, errors, validityClass } = useInputValidation(
       props.value, // value of input passed to component
       validators, // validators array
       (value: string) => emit("input", value), // emit built-in input event with the validated value
     )
 
+    // Function exposed so parent can call it. Child component's root is div.form-group, not input.
     const focus = () => formInputRef.value?.focus()
 
     onMounted(() => {
@@ -95,7 +102,7 @@ export default defineComponent({
     return {
       input,
       errors,
-      cssValidity,
+      validityClass,
       formInputRef,
       focus,
     }

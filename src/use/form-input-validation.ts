@@ -1,4 +1,5 @@
-import { ref, watch, Ref } from "@vue/composition-api"
+// Based on article https://vuejsdevelopers.com/2020/03/31/vue-js-form-composition-api/
+import { ref, watch, Ref, computed } from "@vue/composition-api"
 
 export type ValidatorFunction = (input: string) => null | string
 export type ValidatorFunctions = ValidatorFunction[]
@@ -6,7 +7,7 @@ export type ValidatorEventHandler = (value: string) => void
 export type UseFormInputValidation = {
   input: Ref<string>
   errors: Ref<(string | null)[]>
-  cssValidity: Ref<string>
+  validityClass: Ref<string>
 }
 
 const between = (low: number, high: number): ValidatorFunction => {
@@ -58,26 +59,26 @@ export default function (
   validators: ValidatorFunctions,
   onValidate: ValidatorEventHandler,
 ): UseFormInputValidation {
-  const input = ref<string>(startVal)
-  const errors = ref<(string | null)[]>([])
-  const cssValidity = ref<string>("")
+  const input = ref<string>(startVal) // Gets ref to FormInput's input (v-model)
+  const errors = ref<(string | null)[]>([]) // Array to populate with nulls (valid) or error strings
 
-  const updateState = (): void => {
-    cssValidity.value = errors.value.every((error) => error === null) ? "is-valid" : "is-invalid"
-  }
+  // If validation performed, return is-valid or is-invalid, else ""
+  const validityClass = computed(() => {
+    if (errors.value.length > 0)
+      return errors.value.every((error) => error === null) ? "is-valid" : "is-invalid"
+    return "" // No validation performed (not dirty)
+  })
 
   // Whenever the input changes, new value is passed to each function in validators array
   // which adds a string to errors array if invalid (null skips)
   watch(input, (newVal) => { // watch for input event and callback with new value
     errors.value = validators.map((validator) => validator(newVal))
-    console.log("Errors", errors.value)
     onValidate(newVal) // emit value back to FormInput after calling each validator function
-    updateState()
   })
 
   return {
     input,
     errors,
-    cssValidity,
+    validityClass,
   }
 }
