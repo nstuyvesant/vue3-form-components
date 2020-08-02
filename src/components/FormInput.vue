@@ -17,7 +17,7 @@ import useInputValidation, {
   ValidatorFunctions,
 } from "@/use/form-input-validation"
 
-// TypeScript: need way for parent to know about this method to prevent error
+// TypeScript: way for parent to know about focus() method to prevent error
 export interface FormInputContext extends Vue {
   focus(): void
 }
@@ -87,9 +87,9 @@ export default defineComponent({
     // errors - array with error messages (or nulls)
     // validityClass - Bootstrap classes is-valid, is-invalid, or "" if field isn't dirty or has no validator functions
     const { input, errors, validityClass } = useInputValidation(
-      props.value, // value of input passed to component
+      props.value, // value of input passed to component, half of 2-way data binding
       validators, // validators array
-      (value: string) => emit("input", value), // emit built-in input event with the validated value
+      (value: string) => emit("input", value), // emit built-in input event with the validated value to complete 2-way data binding
     )
 
     // Child component's template root is div.form-group, not input so must expose this method to parent
@@ -100,9 +100,9 @@ export default defineComponent({
     })
 
     return {
-      input,
-      errors,
-      validityClass,
+      input, // for v-model on input DOM element
+      errors, // errors array
+      validityClass, // Tri-state - valid, invalid, not validated
       formInputRef, // otherwise focus() won't work
       focus,
     }
