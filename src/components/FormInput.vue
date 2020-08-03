@@ -15,11 +15,13 @@ import useInputValidation, {
   email,
   numeric,
   ValidatorFunctions,
+  Validity,
 } from "@/use/form-input-validation"
 
 // TypeScript: way for parent to know about focus() method to prevent error
 export interface FormInputContext extends Vue {
   focus(): void
+  validityClass: Validity
 }
 
 export default defineComponent({
@@ -102,7 +104,7 @@ export default defineComponent({
     return {
       input, // for v-model on input DOM element
       errors, // errors array
-      validityClass, // Tri-state - valid, invalid, not validated
+      validityClass, // Tri-state: valid, invalid, not validated
       formInputRef, // otherwise focus() won't work
       focus,
     }
