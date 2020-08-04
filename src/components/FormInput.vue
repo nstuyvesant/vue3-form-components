@@ -9,7 +9,7 @@
         br
 </template>
 <script lang="ts">
-// Based on article https://vuejsdevelopers.com/2020/03/31/vue-js-form-composition-api/
+// Based on Anthony Gore's article https://vuejsdevelopers.com/2020/03/31/vue-js-form-composition-api/
 import { defineComponent, ref, onMounted } from "@vue/composition-api"
 import useInputValidation, {
   email,

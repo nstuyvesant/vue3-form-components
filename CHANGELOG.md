@@ -1,4 +1,5 @@
 # Product Backlog
+* [High] Make FormGroup aware of its children
 * [High] Need a way to display validation errors for every FormInput on a form when it is submitted (page could have multiple forms).
 
 Example:
@@ -13,8 +14,6 @@ v = {
   children: [A, B, C]
 }
 
-
-- Provide/inject a reactive object from the parent to the child
 * [High] Need a way to determine whether a form is valid based on the validity of its child FormInputs.
 * [High] Validation method for checking for duplicates via API
 * [Medium] Recaptcha 3.0 support

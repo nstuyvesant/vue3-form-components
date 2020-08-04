@@ -52,7 +52,7 @@ const sameAs = (val: string): ValidatorFunction => {
 }
 
 const unique = (val: string): ValidatorFunction => {
-  // TODO: return function that sees if (input: string) is already in the table
+  // TODO: call API (`GET /api/${val}/${input}`) to get array of matches
   // If length of array is zero, the value is unique
   return (input: string) => (input === "user" ? null : `Not a unique: ${val}.`)
 }
