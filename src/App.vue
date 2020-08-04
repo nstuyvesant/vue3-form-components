@@ -2,7 +2,7 @@
 #app
   .container
     h1 Form Experiment
-    FormGroup
+    FormGroup(@submit='onSubmit')
       FormInput(id='email', type='email', ref='emailRef', autofocus=true, v-model.trim='form.email', :validators='[required()]', label='Email', placeholder='Email address', sr-only=false, autocomplete='email', :maxlength='80')
       FormInput(id='password', type='password', v-model.trim='form.password', :validators='[required()]', label='Password', placeholder='Password', ref='passwordRef', sr-only=false, autocomplete='current-password', :maxlength='18')
       button.btn.btn-primary(type='button', @click='emailFocus') Focus on Email
@@ -12,6 +12,7 @@
 </template>
 
 <script lang="ts">
+// Based on Anthony Gore's article https://vuejsdevelopers.com/2020/03/31/vue-js-form-composition-api/
 import { defineComponent, reactive, ref } from "@vue/composition-api"
 import FormGroup from "@/components/FormGroup.vue"
 import FormInput, { FormInputContext } from "@/components/FormInput.vue"
@@ -31,9 +32,10 @@ export default defineComponent({
       password: "",
     })
 
+    // Called after FormGroup's submit handler if all the FormInputs validated successfully
     const onSubmit = (): void => {
       form.submitted = true
-      console.log("Submitted form", form)
+      console.log("App.vue:onSubmit()", form)
     }
 
     const emailRef = ref<FormInputContext>()
