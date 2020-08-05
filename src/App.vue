@@ -15,8 +15,8 @@
 // Based on Anthony Gore's article https://vuejsdevelopers.com/2020/03/31/vue-js-form-composition-api/
 import { defineComponent, reactive, ref } from "@vue/composition-api"
 import FormGroup from "@/components/FormGroup.vue"
-import FormInput, { FormInputContext } from "@/components/FormInput.vue"
-import { required } from "@/use/form-input-validation"
+import FormInput from "@/components/FormInput.vue"
+import { required, FormInputContext } from "@/use/form-input-validation"
 
 export default defineComponent({
   name: "App",
@@ -32,7 +32,7 @@ export default defineComponent({
       password: "",
     })
 
-    // Called after FormGroup's submit handler if all the FormInputs validated successfully
+    // Local submit handler (only invoked if FormInputs in FormGroup are all valid)
     const onSubmit = (): void => {
       form.submitted = true
       console.log("App.vue:onSubmit()", form)

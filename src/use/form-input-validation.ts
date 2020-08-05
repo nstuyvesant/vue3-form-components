@@ -1,4 +1,5 @@
 // Based on article https://vuejsdevelopers.com/2020/03/31/vue-js-form-composition-api/
+import Vue from "vue"
 import { ref, watch, Ref, computed } from "@vue/composition-api"
 
 export enum Validity {
@@ -13,6 +14,11 @@ export type UseFormInputValidation = {
   input: Ref<string>
   errors: Ref<(string | null)[]>
   validityClass: Ref<Validity>
+}
+// TypeScript: way for parent to know about focus() method to prevent error
+export interface FormInputContext extends Vue {
+  focus(): void
+  validityClass: Validity
 }
 
 const between = (low: number, high: number): ValidatorFunction => {

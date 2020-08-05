@@ -1,7 +1,7 @@
 <template lang="pug">
 .form-group
   label(:for='id', :class='srOnly ? "sr-only" : ""') {{ label }}
-  input.form-control(:id='id', ref='formInputRef', :type='type', :class='validityClass', v-model='input', :maxlength='maxlength', :placeholder='placeholder', :aria-describedby='`${id}Feedback`')
+  input.form-control(:id='id', ref='formInputRef', :type='type', :class='validityClass', v-model='input', :maxlength='maxlength', :placeholder='placeholder', :autocomplete='autocomplete', :aria-describedby='`${id}Feedback`')
   .invalid-feedback(:id='`${id}Feedback`')
     template(v-for='error in errors')
       template(v-if='error')
@@ -15,14 +15,7 @@ import useInputValidation, {
   email,
   numeric,
   ValidatorFunctions,
-  Validity,
 } from "@/use/form-input-validation"
-
-// TypeScript: way for parent to know about focus() method to prevent error
-export interface FormInputContext extends Vue {
-  focus(): void
-  validityClass: Validity
-}
 
 export default defineComponent({
   name: "FormInput",
