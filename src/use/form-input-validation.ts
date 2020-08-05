@@ -15,7 +15,6 @@ export type UseFormInputValidation = {
   errors: Ref<(string | null)[]>
   validityClass: Ref<Validity>
 }
-// TypeScript: way for parent to know about focus() method to prevent error
 export interface FormInputContext extends Vue {
   focus(): void
   validityClass: Validity

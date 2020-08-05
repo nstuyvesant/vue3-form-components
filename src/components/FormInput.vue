@@ -65,14 +65,14 @@ export default defineComponent({
       default: false,
     },
   },
-  setup(props, ctx) {
-    // Destructure here in case ctx is needed for something else; otherwise do as setup parameter
-    const { emit } = ctx
-
+  setup(props, { emit }) {
     // Extract validator functions from props
     const validators: ValidatorFunctions = [...props.validators]
+
+    // TODO: Refactor to useInputValidation()
     const formInputRef = ref<HTMLElement | null>(null)
 
+    // TODO: Refactor to useInputValidation()
     // Always validate according to type
     if (props.type === "email") validators.push(email())
     if (props.type === "number") validators.push(numeric())
@@ -82,14 +82,17 @@ export default defineComponent({
     // errors - array with error messages (or nulls)
     // validityClass - Bootstrap classes is-valid, is-invalid, or "" if field isn't dirty or has no validator functions
     const { input, errors, validityClass } = useInputValidation(
+      // If we pass all props, most of the functionality can move to useInputValidation()
       props.value, // value of input passed to component, half of 2-way data binding
       validators, // validators array
       (value: string) => emit("input", value), // emit built-in input event with the validated value to complete 2-way data binding
     )
 
+    // TODO: Refactor to useInputValidation()
     // Child component's template root is div.form-group, not input so must expose this method to parent
     const focus = () => formInputRef.value?.focus()
 
+    // TODO: Move to useInputValidation()
     onMounted(() => {
       if (props.autofocus) focus()
     })

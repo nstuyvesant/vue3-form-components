@@ -10,13 +10,10 @@ import { VNode } from "vue"
 import { defineComponent } from "@vue/composition-api"
 import { Validity, FormInputContext } from "@/use/form-input-validation"
 
-interface Data {
-  [key: string]: unknown
-}
-
 export default defineComponent({
   name: "FormGroup",
   setup(_, { emit, slots }) {
+    // TODO: Refactor validationErrorFree() and onFormSubmit() to composition function
     // Check validity of FormInputs in default slot
     const validationErrorFree = () => {
       const vnodes: VNode[] = slots?.default()
@@ -30,7 +27,7 @@ export default defineComponent({
       return formInputs.every(isValid)
     }
 
-    // Global form validation
+    // Prevent submission if FormInputs are invalid
     const onFormSubmit = () => {
       console.log("FormGroup:onFormSubmit()")
       // TODO: trigger validation on each child that's a FormInput (displays any invalid messages)
