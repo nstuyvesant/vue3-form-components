@@ -18,6 +18,7 @@ import useInputValidation, {
 export default defineComponent({
   name: "FormInput",
   props: {
+    // TODO: Vue 3.0 - change value to modelValue in next line
     value: {
       type: String,
       default: "",
@@ -65,9 +66,11 @@ export default defineComponent({
     // errors - array of error messages or nulls (if valid)
     // validityClass - Bootstrap classes is-valid, is-invalid, or "" if field isn't dirty or has no validator functions
     const { input, errors, validityClass } = useInputValidation(
+      // TODO: Vue 3.0 - change next line to props.modelValue
       props.value, // value of input passed to component, half of 2-way data binding
       props.type, // control type (adds default validations)
       props.validators, // validators array
+      // TODO: Vue 3.0 - change "input" to "update:modelValue" in next line
       (value: string) => emit("input", value), // emit built-in input event with the validated value to complete 2-way data binding
     )
 
