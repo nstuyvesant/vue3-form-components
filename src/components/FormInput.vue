@@ -65,7 +65,7 @@ export default defineComponent({
     // input - bound to DOM input in template
     // errors - array of error messages or nulls (if valid)
     // validityClass - Bootstrap classes is-valid, is-invalid, or "" if field isn't dirty or has no validator functions
-    const { input, errors, validityClass } = useInputValidation(
+    const { input, errors, validityClass, valid } = useInputValidation(
       // TODO: Vue 3.0 - change next line to props.modelValue
       props.value, // value of input passed to component, half of 2-way data binding
       props.type, // control type (adds default validations)
@@ -88,11 +88,12 @@ export default defineComponent({
 
     // TODO: add validate() method to useInputValidation then return it here
     return {
-      input, // for v-model on input DOM element
+      input, // TODO: Vue 3.0 - rename input to modelValue
       errors, // errors array
       validityClass, // Tri-state: valid, invalid, not validated
       formInputRef, // required for focus()
       focus, // allow parent to reach the inner input and make it the focus
+      valid, // expose for use by FormGroup
     }
   },
 })

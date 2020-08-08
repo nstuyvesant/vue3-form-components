@@ -8,7 +8,7 @@
 // Wrapper for FormInputs so we can holistically track validation and prevent submits
 import { VNode } from "vue"
 import { defineComponent } from "@vue/composition-api"
-import { Validity, FormInputContext } from "@/use/form-input-validation"
+import { FormInputContext } from "@/use/form-input-validation"
 
 export default defineComponent({
   name: "FormGroup",
@@ -22,15 +22,17 @@ export default defineComponent({
       )
       const isValid = (formInput: VNode) => {
         const currentFormInput = formInput?.componentInstance as FormInputContext
-        // TODO: currentFormInput.validate()
-        return currentFormInput.validityClass !== Validity.Invalid
+        const { valid } = currentFormInput
+        return valid
       }
       return formInputs.every(isValid)
     }
 
     // Emit submit event to parent only if all FormInputs are valid
     const onFormSubmit = () => {
-      if (validationErrorFree()) emit("submit")
+      if (validationErrorFree()) {
+        emit("submit")
+      } else alert("Form is not valid.")
     }
 
     return { onFormSubmit }

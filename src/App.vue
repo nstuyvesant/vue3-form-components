@@ -32,7 +32,7 @@ export default defineComponent({
 
     // Local submit handler (only fires if FormInputs in FormGroup are all valid)
     const onSubmit = (): void => {
-      alert(form)
+      alert(JSON.stringify(form))
     }
 
     const emailRef = ref<FormInputContext>()

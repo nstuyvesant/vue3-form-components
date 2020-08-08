@@ -1,6 +1,6 @@
 // Based on article https://vuejsdevelopers.com/2020/03/31/vue-js-form-composition-api/
 import Vue from "vue"
-import { ref, watch, Ref, computed } from "@vue/composition-api"
+import { ref, watch, Ref, computed, ComputedRef } from "@vue/composition-api"
 
 export enum Validity {
   Invalid = "is-invalid",
@@ -17,12 +17,15 @@ export type ValidatorFunction = (input: string) => null | string
 export type ValidatorFunctions = ValidatorFunction[]
 export type ValidatorEventHandler = (value: string) => void
 export type UseFormInputValidation = {
-  input: Ref<string>
   errors: Ref<(string | null)[]>
-  validityClass: Ref<Validity>
+  input: Ref<string>
+  valid: ComputedRef<boolean>
+  validityClass: ComputedRef<Validity>
 }
 export interface FormInputContext extends Vue {
   focus(): void
+  input: string
+  valid: boolean
   validityClass: Validity
 }
 
@@ -76,6 +79,7 @@ export default function (
   validators: ValidatorFunctions,
   onValidate: ValidatorEventHandler,
 ): UseFormInputValidation {
+  // TODO: Vue 3.0 - rename input to modelValue
   const input = ref<string>(startVal) // Gets ref to FormInput's input (v-model)
   const errors = ref<(string | null)[]>([]) // Array to populate with nulls (valid) or error strings
 
@@ -85,12 +89,12 @@ export default function (
 
   // Applies array of validator functions against a string value
   // and populates errors array with error messages or nulls (if valid)
-  const validate = (valueToCheck: string) => {
+  const validate = (valueToCheck: string): void => {
     errors.value = validators.map((validator) => validator(valueToCheck))
   }
 
   // Watch for changes to FormInput's input (v-model), validate new value
-  watch(input, (newVal) => {
+  watch(input, (newVal): void => {
     validate(newVal)
     onValidate(newVal) // callback from FormInput (emits new value to parent)
   })
@@ -104,9 +108,19 @@ export default function (
     return Validity.NotChecked
   })
 
+  const valid = computed((): boolean => {
+    validate(input.value)
+    const result: boolean =
+      validityClass.value === Validity.Valid ||
+      validityClass.value === Validity.NotChecked ||
+      false
+    return result
+  })
+
   return {
-    input,
+    input, // TODO: Vue 3.0 - rename input to modelValue
     errors,
     validityClass,
+    valid,
   }
 }
