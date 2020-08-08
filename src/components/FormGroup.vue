@@ -26,7 +26,12 @@ export default defineComponent({
       let allFormInputsValid = true
       for (const vnode of formInputs) {
         const formInput = vnode?.componentInstance as FormInputContext
-        if (!formInput.valid) allFormInputsValid = false
+        if (!formInput.valid) {
+          if (allFormInputsValid) {
+            formInput.focus()
+          }
+          allFormInputsValid = false
+        }
       }
 
       return allFormInputsValid
