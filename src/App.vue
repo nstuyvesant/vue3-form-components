@@ -26,16 +26,13 @@ export default defineComponent({
   },
   setup() {
     const form = reactive({
-      submitted: false,
-      valid: false,
       email: "",
       password: "",
     })
 
-    // Local submit handler (only invoked if FormInputs in FormGroup are all valid)
+    // Local submit handler (only fires if FormInputs in FormGroup are all valid)
     const onSubmit = (): void => {
-      form.submitted = true
-      console.log("App.vue:onSubmit()", form)
+      alert(form)
     }
 
     const emailRef = ref<FormInputContext>()

@@ -58,11 +58,6 @@ export default defineComponent({
       type: Number,
       default: 20,
     },
-    // TODO: determine whether I need this. I could watch for changes to it.
-    submitted: {
-      type: Boolean,
-      default: false,
-    },
   },
   setup(props, { emit }) {
     // Return values:
@@ -76,7 +71,7 @@ export default defineComponent({
       (value: string) => emit("input", value), // emit built-in input event with the validated value to complete 2-way data binding
     )
 
-    // Next 10 lines could move to a useFocus() function
+    // Next 10 lines could move to a useFocus() function (but kinda thin)
 
     // Parent getting a ref would yield div.form-group.
     // Expose focus() method to parent to reach the inner input.
