@@ -12,8 +12,6 @@
 // Based on Anthony Gore's article https://vuejsdevelopers.com/2020/03/31/vue-js-form-composition-api/
 import { defineComponent, ref, onMounted } from "@vue/composition-api"
 import useInputValidation, {
-  email,
-  numeric,
   ValidatorFunctions,
 } from "@/use/form-input-validation"
 
@@ -69,30 +67,21 @@ export default defineComponent({
     // Extract validator functions from props
     const validators: ValidatorFunctions = [...props.validators]
 
-    // TODO: Refactor to useInputValidation()
-    const formInputRef = ref<HTMLElement | null>(null)
-
-    // TODO: Refactor to useInputValidation()
-    // Always validate according to type
-    if (props.type === "email") validators.push(email())
-    if (props.type === "number") validators.push(numeric())
-
-    // useInputValidation function:
+    // useInputValidation return values:
     // input - bound to DOM input in template
     // errors - array with error messages (or nulls)
     // validityClass - Bootstrap classes is-valid, is-invalid, or "" if field isn't dirty or has no validator functions
     const { input, errors, validityClass } = useInputValidation(
-      // If we pass all props, most of the functionality can move to useInputValidation()
       props.value, // value of input passed to component, half of 2-way data binding
+      props.type, // control type (adds default validations)
       validators, // validators array
       (value: string) => emit("input", value), // emit built-in input event with the validated value to complete 2-way data binding
     )
 
-    // TODO: Refactor to useInputValidation()
+    // To refactor this to useInputValidation, would need to add formInputRef and props.autofocus as paramters
     // Child component's template root is div.form-group, not input so must expose this method to parent
+    const formInputRef = ref<HTMLElement | null>(null)
     const focus = () => formInputRef.value?.focus()
-
-    // TODO: Move to useInputValidation()
     onMounted(() => {
       if (props.autofocus) focus()
     })

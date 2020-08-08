@@ -66,11 +66,16 @@ export { between, email, minLength, numeric, required, sameAs, unique }
 
 export default function (
   startVal: string,
+  controlType: string,
   validators: ValidatorFunctions,
   onValidate: ValidatorEventHandler,
 ): UseFormInputValidation {
   const input = ref<string>(startVal) // Gets ref to FormInput's input (v-model)
   const errors = ref<(string | null)[]>([]) // Array to populate with nulls (valid) or error strings
+
+  // Always validate according to type
+  if (controlType === "email") validators.push(email())
+  if (controlType === "number") validators.push(numeric())
 
   // If validation performed, return is-valid or is-invalid, else ""
   const validityClass = computed(() => {
