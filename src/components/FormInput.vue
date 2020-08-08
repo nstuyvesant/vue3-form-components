@@ -78,8 +78,9 @@ export default defineComponent({
       (value: string) => emit("input", value), // emit built-in input event with the validated value to complete 2-way data binding
     )
 
-    // Child component's template root is div.form-group, not input
-    // so expose this method to parent
+    // In the parent, getting a ref to this component doesn't work
+    // because top-level is div.form-group. Expose focus() method to parent
+    // to reach the inner input.
     const formInputRef = ref<HTMLElement | null>(null)
     const focus = () => formInputRef.value?.focus()
     // Support autofocus prop from parent
