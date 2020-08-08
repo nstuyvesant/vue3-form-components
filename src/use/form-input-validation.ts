@@ -92,7 +92,7 @@ export default function (
   // Watch for changes to FormInput's input (v-model), validate new value
   watch(input, (newVal) => {
     validate(newVal)
-    onValidate(newVal) // callback function from FormInput that emits new value to parent
+    onValidate(newVal) // callback from FormInput (emits new value to parent)
   })
 
   // If validation performed, return is-valid or is-invalid, else ""

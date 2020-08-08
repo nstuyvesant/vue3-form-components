@@ -58,29 +58,28 @@ export default defineComponent({
       type: Number,
       default: 20,
     },
+    // TODO: determine whether I need this. I could watch for changes to it.
     submitted: {
       type: Boolean,
       default: false,
     },
   },
   setup(props, { emit }) {
-    // Extract validator functions from props
-    const validators: ValidatorFunctions = [...props.validators]
-
-    // useInputValidation return values:
+    // Return values:
     // input - bound to DOM input in template
     // errors - array of error messages or nulls (if valid)
     // validityClass - Bootstrap classes is-valid, is-invalid, or "" if field isn't dirty or has no validator functions
     const { input, errors, validityClass } = useInputValidation(
       props.value, // value of input passed to component, half of 2-way data binding
       props.type, // control type (adds default validations)
-      validators, // validators array
+      props.validators, // validators array
       (value: string) => emit("input", value), // emit built-in input event with the validated value to complete 2-way data binding
     )
 
-    // In the parent, getting a ref to this component doesn't work
-    // because top-level is div.form-group. Expose focus() method to parent
-    // to reach the inner input.
+    // Next 10 lines could move to a useFocus() function
+
+    // Parent getting a ref would yield div.form-group.
+    // Expose focus() method to parent to reach the inner input.
     const formInputRef = ref<HTMLElement | null>(null)
     const focus = () => formInputRef.value?.focus()
 
