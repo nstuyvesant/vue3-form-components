@@ -78,10 +78,11 @@ export default defineComponent({
       (value: string) => emit("input", value), // emit built-in input event with the validated value to complete 2-way data binding
     )
 
-    // To refactor this to useInputValidation, would need to add formInputRef and props.autofocus as paramters
-    // Child component's template root is div.form-group, not input so must expose this method to parent
+    // Child component's template root is div.form-group, not input
+    // so expose this method to parent
     const formInputRef = ref<HTMLElement | null>(null)
     const focus = () => formInputRef.value?.focus()
+    // Support autofocus prop from parent
     onMounted(() => {
       if (props.autofocus) focus()
     })
