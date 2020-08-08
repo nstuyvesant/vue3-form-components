@@ -83,6 +83,14 @@ export default function (
   if (inputType === InputType.Email) validators.push(email())
   if (inputType === InputType.Number) validators.push(numeric())
 
+  // Whenever the input changes, new value is passed to each function in validators array
+  // adding string to errors array if invalid (null skips)
+  watch(input, (newVal) => {
+    // watch for input event and callback with new value
+    errors.value = validators.map((validator) => validator(newVal))
+    onValidate(newVal) // emit value back to FormInput after calling each validator function
+  })
+
   // If validation performed, return is-valid or is-invalid, else ""
   const validityClass = computed(() => {
     if (errors.value.length > 0)
@@ -90,14 +98,6 @@ export default function (
         ? Validity.Valid
         : Validity.Invalid
     return Validity.NotChecked
-  })
-
-  // Whenever the input changes, new value is passed to each function in validators array
-  // adding string to errors array if invalid (null skips)
-  watch(input, (newVal) => {
-    // watch for input event and callback with new value
-    errors.value = validators.map((validator) => validator(newVal))
-    onValidate(newVal) // emit value back to FormInput after calling each validator function
   })
 
   return {
