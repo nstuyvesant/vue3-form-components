@@ -7,6 +7,12 @@ export enum Validity {
   Valid = "is-valid",
   NotChecked = "",
 }
+export enum InputType {
+  Text = "text",
+  Email = "email",
+  Number = "number",
+  Date = "date",
+}
 export type ValidatorFunction = (input: string) => null | string
 export type ValidatorFunctions = ValidatorFunction[]
 export type ValidatorEventHandler = (value: string) => void
@@ -66,7 +72,7 @@ export { between, email, minLength, numeric, required, sameAs, unique }
 
 export default function (
   startVal: string,
-  controlType: string,
+  inputType: string,
   validators: ValidatorFunctions,
   onValidate: ValidatorEventHandler,
 ): UseFormInputValidation {
@@ -74,8 +80,8 @@ export default function (
   const errors = ref<(string | null)[]>([]) // Array to populate with nulls (valid) or error strings
 
   // Always validate according to type
-  if (controlType === "email") validators.push(email())
-  if (controlType === "number") validators.push(numeric())
+  if (inputType === InputType.Email) validators.push(email())
+  if (inputType === InputType.Number) validators.push(numeric())
 
   // If validation performed, return is-valid or is-invalid, else ""
   const validityClass = computed(() => {

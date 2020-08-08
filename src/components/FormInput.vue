@@ -69,7 +69,7 @@ export default defineComponent({
 
     // useInputValidation return values:
     // input - bound to DOM input in template
-    // errors - array with error messages (or nulls)
+    // errors - array of error messages or nulls (if valid)
     // validityClass - Bootstrap classes is-valid, is-invalid, or "" if field isn't dirty or has no validator functions
     const { input, errors, validityClass } = useInputValidation(
       props.value, // value of input passed to component, half of 2-way data binding
@@ -91,8 +91,8 @@ export default defineComponent({
       input, // for v-model on input DOM element
       errors, // errors array
       validityClass, // Tri-state: valid, invalid, not validated
-      formInputRef, // otherwise focus() won't work
-      focus,
+      formInputRef, // required for focus()
+      focus, // allow parent to reach the inner input and make it the focus
     }
   },
 })
