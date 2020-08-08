@@ -83,11 +83,13 @@ export default defineComponent({
     // to reach the inner input.
     const formInputRef = ref<HTMLElement | null>(null)
     const focus = () => formInputRef.value?.focus()
+
     // Support autofocus prop from parent
     onMounted(() => {
       if (props.autofocus) focus()
     })
 
+    // TODO: add validate() method to useInputValidation then return it here
     return {
       input, // for v-model on input DOM element
       errors, // errors array

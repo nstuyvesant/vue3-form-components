@@ -21,18 +21,15 @@ export default defineComponent({
         (vnode) => vnode?.componentOptions?.tag === "FormInput",
       )
       const isValid = (formInput: VNode) => {
-        const x = formInput?.componentInstance as FormInputContext
-        return x.validityClass !== Validity.Invalid
+        const currentFormInput = formInput?.componentInstance as FormInputContext
+        // TODO: currentFormInput.validate()
+        return currentFormInput.validityClass !== Validity.Invalid
       }
       return formInputs.every(isValid)
     }
 
-    // Prevent submission if FormInputs are invalid
+    // Emit submit event to parent only if all FormInputs are valid
     const onFormSubmit = () => {
-      console.log("FormGroup:onFormSubmit()")
-      // TODO: trigger validation on each child that's a FormInput (displays any invalid messages)
-
-      // Made it past validation, emit submit event so handler in App.vue can take it.
       if (validationErrorFree()) emit("submit")
     }
 

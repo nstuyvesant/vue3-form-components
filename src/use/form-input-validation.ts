@@ -83,12 +83,16 @@ export default function (
   if (inputType === InputType.Email) validators.push(email())
   if (inputType === InputType.Number) validators.push(numeric())
 
-  // Whenever the input changes, new value is passed to each function in validators array
-  // adding string to errors array if invalid (null skips)
+  // Applies array of validator functions against a string value
+  // and populates errors array with error messages or nulls (if valid)
+  const validate = (valueToCheck: string) => {
+    errors.value = validators.map((validator) => validator(valueToCheck))
+  }
+
+  // Watch for changes to FormInput's input (v-model), validate new value
   watch(input, (newVal) => {
-    // watch for input event and callback with new value
-    errors.value = validators.map((validator) => validator(newVal))
-    onValidate(newVal) // emit value back to FormInput after calling each validator function
+    validate(newVal)
+    onValidate(newVal) // callback function from FormInput that emits new value to parent
   })
 
   // If validation performed, return is-valid or is-invalid, else ""
