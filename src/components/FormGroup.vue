@@ -20,12 +20,16 @@ export default defineComponent({
       const formInputs: VNode[] = vnodes?.filter(
         (vnode) => vnode?.componentOptions?.tag === "FormInput",
       )
-      const isValid = (formInput: VNode) => {
-        const currentFormInput = formInput?.componentInstance as FormInputContext
-        const { valid } = currentFormInput
-        return valid
+
+      // Loop through all elements tracking whether any are falsy
+      // Can't use Array.prototype.every because it stops on first falsy
+      let allFormInputsValid = true
+      for (const vnode of formInputs) {
+        const formInput = vnode?.componentInstance as FormInputContext
+        if (!formInput.valid) allFormInputsValid = false
       }
-      return formInputs.every(isValid)
+
+      return allFormInputsValid
     }
 
     // Emit submit event to parent only if all FormInputs are valid

@@ -65,13 +65,13 @@ const sameAs = (val: string): ValidatorFunction => {
   return (input: string) => (input !== val ? "Passwords do not match." : null)
 }
 
-const unique = (val: string): ValidatorFunction => {
-  // TODO: call API (`GET /api/${val}/${input}`) to get array of matches
-  // If length of array is zero, the value is unique
-  return (input: string) => (input === "user" ? null : `Not a unique: ${val}.`)
-}
+// TODO: call API (`GET /api/${val}/${input}`) to get array of matches
+// const unique = (val: string): ValidatorFunction => {
+//   If length of array is zero, the value is unique
+//   return (input: string) => (input === "user" ? null : `Not a unique: ${val}.`)
+// }
 
-export { between, email, minLength, numeric, required, sameAs, unique }
+export { between, email, minLength, numeric, required, sameAs /*, unique*/ }
 
 export default function (
   startVal: string,
@@ -112,8 +112,7 @@ export default function (
     validate(input.value)
     const result: boolean =
       validityClass.value === Validity.Valid ||
-      validityClass.value === Validity.NotChecked ||
-      false
+      validityClass.value === Validity.NotChecked
     return result
   })
 
