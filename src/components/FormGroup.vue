@@ -15,17 +15,18 @@ export default defineComponent({
   setup(_, { emit, slots }) {
     // TODO: Refactor validationErrorFree() and onFormSubmit() to composition function
 
-    // Check validity of FormInputs in default slot
+    // Check to see if all FormInputs in default slot are valid (computed property)
     const validationErrorFree = () => {
-      const vnodes = slots.default()
-      const formInputs = vnodes.filter(
+      // Generate array of VNodes that are FormInputs in default slot
+      let vnodes = slots.default()
+      vnodes = vnodes.filter(
         (vnode) => vnode.componentOptions?.tag === "FormInput",
       )
 
       // Loop through all elements tracking whether any are falsy
       // Can't use Array.prototype.every because it stops on first falsy
       let allFormInputsValid = true
-      for (const vnode of formInputs) {
+      for (const vnode of vnodes) {
         const formInput = vnode.componentInstance as FormInputContext
         if (!formInput.valid) {
           if (allFormInputsValid) {
