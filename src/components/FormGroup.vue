@@ -13,35 +13,29 @@ export default defineComponent({
   name: "FormGroup",
   inheritAttrs: false,
   setup(_, { emit, slots }) {
-    // TODO: Refactor validationErrorFree() and onFormSubmit() to composition function
+    // Emit submit event to parent only if all FormInputs are valid
+    const onFormSubmit = () => {
+      let valid = true
 
-    // Check to see if all FormInputs in default slot are valid (computed property)
-    const validationErrorFree = () => {
-      // Generate array of VNodes that are FormInputs in default slot
-      let vnodes = slots.default()
-      vnodes = vnodes.filter(
+      // Get VNodes from default slot
+      const vnodes = slots.default()
+      let formInputVNodes = vnodes.filter(
         (vnode) => vnode.componentOptions?.tag === "FormInput",
       )
 
-      // Loop through all elements tracking whether any are falsy
-      // Can't use Array.prototype.every because it stops on first falsy
-      let allFormInputsValid = true
-      for (const vnode of vnodes) {
-        const formInput = vnode.componentInstance as FormInputContext
+      // Check each VNode that represents a FormInput
+      for (const formInputVNode of formInputVNodes) {
+        const formInput = formInputVNode.componentInstance as FormInputContext
         if (!formInput.valid) {
-          if (allFormInputsValid) {
+          // If previously valid (or untested) and not invalid, focus first invalid FormInput
+          if (valid) {
             formInput.focus()
           }
-          allFormInputsValid = false
+          valid = false
         }
       }
 
-      return allFormInputsValid
-    }
-
-    // Emit submit event to parent only if all FormInputs are valid
-    const onFormSubmit = () => {
-      if (validationErrorFree()) {
+      if (valid) {
         emit("submit")
       } else alert("Form is not valid.")
     }
