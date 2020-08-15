@@ -4,8 +4,6 @@
 </template>
 
 <script lang="ts">
-// Loosely based on Vue Formulate's FormulateForm https://vueformulate.com/guide/forms/#setting-initial-values
-// Wrapper for FormInputs so we can holistically track validation and prevent submits
 import { defineComponent } from "@vue/composition-api"
 import { FormInputContext } from "@/use/form-input-validation"
 
@@ -13,21 +11,15 @@ export default defineComponent({
   name: "FormGroup",
   inheritAttrs: false,
   setup(_, { emit, slots }) {
-    // Emit submit event to parent only if all FormInputs are valid
+    // Check Form Inputs in default slot and emit submit if all are valid
     const onFormSubmit = () => {
       let valid = true
-
-      // Get VNodes from default slot
       const vnodes = slots.default()
-      let formInputVNodes = vnodes.filter(
-        (vnode) => vnode.componentOptions?.tag === "FormInput",
-      )
-
-      // Check each VNode that represents a FormInput
-      for (const formInputVNode of formInputVNodes) {
-        const formInput = formInputVNode.componentInstance as FormInputContext
+      for (const vnode of vnodes) {
+        if (!vnode.componentOptions) break
+        if (vnode.componentOptions.tag !== "FormInput") break
+        const formInput = vnode.componentInstance as FormInputContext
         if (!formInput.valid) {
-          // If previously valid (or untested) and not invalid, focus first invalid FormInput
           if (valid) {
             formInput.focus()
           }
