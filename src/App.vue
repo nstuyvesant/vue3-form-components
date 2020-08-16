@@ -12,7 +12,6 @@
 </template>
 
 <script lang="ts">
-// Based on Anthony Gore's article https://vuejsdevelopers.com/2020/03/31/vue-js-form-composition-api/
 import { defineComponent, reactive, ref } from "@vue/composition-api"
 import FormGroup from "@/components/FormGroup.vue"
 import FormInput from "@/components/FormInput.vue"
