@@ -29,7 +29,7 @@ yarn lint
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-[vuejs]: https://img.shields.io/badge/vuejs-2.6.11-red.svg
+[vuejs]: https://img.shields.io/badge/vuejs-3.0.0-red.svg
 [vuejs-url]: https://vuejs.org
 [node]: https://img.shields.io/badge/nodejs-14.7.0-green.svg
 [node-url]: https://nodejs.org

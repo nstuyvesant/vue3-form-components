@@ -9,8 +9,8 @@
         br
 </template>
 <script lang="ts">
-// Based on Anthony Gore's article https://vuejsdevelopers.com/2020/03/31/vue-js-form-composition-api/
-import { defineComponent, ref, onMounted } from "@vue/composition-api"
+// Adapted from Anthony Gore's article https://vuejsdevelopers.com/2020/03/31/vue-js-form-composition-api/
+import { defineComponent, ref, onMounted } from "vue"
 import useInputValidation, {
   ValidatorFunctions,
 } from "@/use/form-input-validation"
@@ -18,8 +18,7 @@ import useInputValidation, {
 export default defineComponent({
   name: "FormInput",
   props: {
-    // TODO: Vue 3.0 - change value to modelValue in next line
-    value: {
+    modelValue: {
       type: String,
       default: "",
     },
@@ -66,12 +65,10 @@ export default defineComponent({
     // errors - array of error messages or nulls (if valid)
     // validityClass - Bootstrap classes is-valid, is-invalid, or "" if field isn't dirty or has no validator functions
     const { input, errors, validityClass, valid } = useInputValidation(
-      // TODO: Vue 3.0 - change next line to props.modelValue
-      props.value, // value of input passed to component, half of 2-way data binding
+      props.modelValue, // value of input passed to component, half of 2-way data binding
       props.type, // control type (adds default validations)
       props.validators, // validators array
-      // TODO: Vue 3.0 - change "input" to "update:modelValue" in next line
-      (value: string) => emit("input", value), // emit built-in input event with the validated value to complete 2-way data binding
+      (newValue: string) => emit("update:modelValue", newValue), // emit built-in input event with the validated value to complete 2-way data binding
     )
 
     // Next 10 lines could move to a useFocus() function (but kinda thin)
@@ -86,9 +83,8 @@ export default defineComponent({
       if (props.autofocus) focus()
     })
 
-    // TODO: add validate() method to useInputValidation then return it here
     return {
-      input, // TODO: Vue 3.0 - rename input to modelValue
+      input,
       errors, // errors array
       validityClass, // Tri-state: valid, invalid, not validated
       formInputRef, // required for focus()

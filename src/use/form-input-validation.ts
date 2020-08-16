@@ -1,6 +1,5 @@
-// Based on article https://vuejsdevelopers.com/2020/03/31/vue-js-form-composition-api/
-import Vue from "vue"
-import { ref, watch, Ref, computed, ComputedRef } from "@vue/composition-api"
+// Adapted from Anthony Gore's article https://vuejsdevelopers.com/2020/03/31/vue-js-form-composition-api/
+import { VNode, ref, watch, Ref, computed, ComputedRef } from "vue"
 
 export enum Validity {
   Invalid = "is-invalid",
@@ -22,7 +21,7 @@ export type UseFormInputValidation = {
   valid: ComputedRef<boolean>
   validityClass: ComputedRef<Validity>
 }
-export interface FormInputContext extends Vue {
+export interface FormInputContext extends VNode {
   focus(): void
   input: string
   valid: boolean
@@ -79,7 +78,6 @@ export default function (
   validators: ValidatorFunctions,
   onValidate: ValidatorEventHandler,
 ): UseFormInputValidation {
-  // TODO: Vue 3.0 - rename input to modelValue
   const input = ref<string>(startVal) // Gets ref to FormInput's input (v-model)
   const errors = ref<(string | null)[]>([]) // Array to populate with nulls (valid) or error strings
 
@@ -117,7 +115,7 @@ export default function (
   })
 
   return {
-    input, // TODO: Vue 3.0 - rename input to modelValue
+    input,
     errors,
     validityClass,
     valid,
