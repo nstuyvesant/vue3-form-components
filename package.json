@@ -11,15 +11,15 @@
   },
   "dependencies": {
     "bootstrap-vue": "^2.21.2",
-    "core-js": "^3.9.1",
+    "core-js": "^3.10.2",
     "register-service-worker": "^1.7.2",
-    "vue": "^3.0.7"
+    "vue": "^3.0.11"
   },
   "devDependencies": {
-    "@popperjs/core": "^2.9.1",
-    "@types/jest": "^26.0.21",
-    "@typescript-eslint/eslint-plugin": "^4.19.0",
-    "@typescript-eslint/parser": "^4.19.0",
+    "@popperjs/core": "^2.9.2",
+    "@types/jest": "^26.0.22",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
     "@vue/cli-plugin-babel": "~4.5.12",
     "@vue/cli-plugin-e2e-cypress": "~4.5.12",
     "@vue/cli-plugin-eslint": "~4.5.12",
@@ -27,26 +27,26 @@
     "@vue/cli-plugin-typescript": "~4.5.12",
     "@vue/cli-plugin-unit-jest": "~4.5.12",
     "@vue/cli-service": "~4.5.12",
-    "@vue/compiler-sfc": "^3.0.7",
+    "@vue/compiler-sfc": "^3.0.11",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^7.0.0",
     "@vue/test-utils": "2.0.0-rc.1",
     "bootstrap": "^4.6.0",
-    "eslint": "^7.22.0",
-    "eslint-plugin-prettier": "^3.3.1",
-    "eslint-plugin-vue": "^7.8.0",
+    "eslint": "^7.24.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-vue": "^7.9.0",
     "node-sass": "^5.0.0",
     "portal-vue": "^2.1.7",
     "prettier": "^2.2.1",
-    "sass": "^1.32.8",
+    "sass": "^1.32.11",
     "sass-loader": "^11.0.1",
-    "typescript": "~4.2.3",
+    "typescript": "~4.2.4",
     "vue-cli-plugin-bootstrap-vue": "~0.7.0",
     "vue-cli-plugin-pug": "~2.0.0",
     "vue-jest": "5.0.0-alpha.8"
   },
   "engines": {
-    "node": "^15.12.0",
+    "node": "^15.14.0",
     "yarn": "^1.22.10"
   }
 }
