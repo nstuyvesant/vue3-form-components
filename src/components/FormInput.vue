@@ -44,7 +44,7 @@ export default defineComponent({
     },
     validators: {
       type: Array as () => ValidatorFunctions,
-      default: [],
+      default: () => [],
     },
     autofocus: {
       type: Boolean,
