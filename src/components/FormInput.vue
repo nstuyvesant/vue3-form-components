@@ -1,13 +1,15 @@
 <template lang="pug">
 .form-group
   label(:for='id', :class='srOnly ? "sr-only" : ""') {{ label }}
-  input.form-control(:id='id', ref='formInputRef', :type='type', :class='validityClass', v-model='input', :maxlength='maxlength', :placeholder='placeholder', :autocomplete='autocomplete', :aria-describedby='`${id}Feedback`')
+  input.form-control(v-if='type!="textarea"', :id='id', ref='formInputRef', :type='type', :class='validityClass', v-model='input', :maxlength='maxlength', :placeholder='placeholder', :autocomplete='autocomplete', :aria-describedby='`${id}Feedback`')
+  textarea.form-control(v-if='type=="textarea"', :id='id', ref='formInputRef', :class='validityClass', v-model='input', :maxlength='maxlength', :placeholder='placeholder', :aria-describedby='`${id}Feedback`')
   .invalid-feedback(:id='`${id}Feedback`')
     template(v-for='error in errors')
       template(v-if='error')
         |{{ error }}
         br
 </template>
+
 <script lang="ts">
 // Adapted from Anthony Gore's article https://vuejsdevelopers.com/2020/03/31/vue-js-form-composition-api/
 import { defineComponent, ref, onMounted } from "vue"
@@ -86,7 +88,7 @@ export default defineComponent({
     return {
       input,
       errors, // errors array
-      validityClass, // Tri-state: valid, invalid, not validated
+      validityClass, // tri-state: valid, invalid, not validated
       formInputRef, // required for focus()
       focus, // allow parent to reach the inner input and make it the focus
       valid, // expose for use by FormGroup

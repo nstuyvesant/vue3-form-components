@@ -61,6 +61,7 @@ const required = (): ValidatorFunction => {
 }
 
 const sameAs = (val: string): ValidatorFunction => {
+  console.log(val)
   return (input: string) => (input !== val ? "Passwords do not match." : null)
 }
 
