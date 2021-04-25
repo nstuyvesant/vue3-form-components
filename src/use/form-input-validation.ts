@@ -8,6 +8,7 @@ export enum Validity {
 }
 export enum InputType {
   Text = "text",
+  TextArea = "textarea",
   Email = "email",
   Number = "number",
   Date = "date",
@@ -60,9 +61,11 @@ const required = (): ValidatorFunction => {
   return (input: string) => (!input ? "Required." : null)
 }
 
-const sameAs = (val: string): ValidatorFunction => {
-  console.log(val)
-  return (input: string) => (input !== val ? "Passwords do not match." : null)
+const sameAs = (comparedString: string): ValidatorFunction => {
+  return (input: string) => {
+    console.log(comparedString) // why is this empty when minLength can pass min to function?
+    return input !== comparedString ? "Passwords do not match." : null
+  }
 }
 
 // TODO: call API (`GET /api/${val}/${input}`) to get array of matches
