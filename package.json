@@ -1,7 +1,7 @@
 {
   "name": "vue3-form-components",
   "version": "1.0.0",
-  "private": false,
+  "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
