@@ -61,10 +61,12 @@ const required = (): ValidatorFunction => {
   return (input: string) => (!input ? "Required." : null)
 }
 
-const sameAs = (comparedString: string): ValidatorFunction => {
+let valueToCompare: string
+
+const sameAs = (val: string): ValidatorFunction => {
+  valueToCompare = val // need higher scope to access in arrow function
   return (input: string) => {
-    console.log(comparedString) // why is this empty when minLength can pass min to function?
-    return input !== comparedString ? "Passwords do not match." : null
+    return input !== valueToCompare ? "Passwords do not match." : null
   }
 }
 
