@@ -1,10 +1,13 @@
 [![vuejs][vuejs]][vuejs-url]
 [![node][node]][node-url]
 
-# Vue Form Components
-[FormGroup](https://github.com/nstuyvesant/form-components/blob/master/src/components/FormGroup.vue) and [FormInput](https://github.com/nstuyvesant/form-components/blob/master/src/components/FormInput.vue) components that provide flexible validation written in TypeScript using the [Vue 3's Composition API](https://v3.vuejs.org/api/composition-api.html). If any FormInputs have a validation error, validation errors will be displayed and the FormGroup will not fire the submit event.
+# Vue3 Form Components
+Sample project of two Vue 3 components, 
+[FormGroup](https://github.com/nstuyvesant/form-components/blob/master/src/components/FormGroup.vue) and [FormInput](https://github.com/nstuyvesant/form-components/blob/master/src/components/FormInput.vue), that provide configurable validation.
 
-Based on [Anthony Gore's article](https://vuejsdevelopers.com/2020/03/31/vue-js-form-composition-api/) with some ideas from [Vue Formulate's FormulateForm](https://vueformulate.com/guide/forms/#setting-initial-values).
+Written in TypeScript using the [Vue 3's Composition API](https://v3.vuejs.org/api/composition-api.html). FormInputs with a validation error will display errors and the FormGroup's submit event will be suppressed. If a validation error occurs, the focus will move to the first FormInput with an error.
+
+Based on [Anthony Gore's article](https://vuejsdevelopers.com/2020/03/31/vue-js-form-composition-api/) with ideas from [Vue Formulate's FormulateForm](https://vueformulate.com/guide/forms/#setting-initial-values).
 
 ## Project setup
 ```
